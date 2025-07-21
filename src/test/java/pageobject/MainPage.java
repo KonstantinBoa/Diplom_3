@@ -4,14 +4,14 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.*;
 
 public class MainPage {
-    public SelenideElement loginButton = $x("//button[text()='Войти в аккаунт']");
-    public SelenideElement personalCabinetButton = $("[href='/account']");
-
-    public void clickLogin() {
-        loginButton.click();
-    }
-    public void clickPersonalCabinet() {
-        personalCabinetButton.click();
-    }
+    // Кнопка "Лента заказов" (feed)
+    public SelenideElement feedButton = $("a.AppHeader_header__link__3D_hX[href='/feed']");
+    // Кнопка "Личный кабинет"
+    public SelenideElement personalCabinet = $("a.AppHeader_header__link__3D_hX[href='/account']");
+    // Кнопка "Войти в аккаунт" (на главной, если не авторизован)
+    public SelenideElement loginButton = $("button.button_button_type_primary__1O7Bx"); // работает и для формы логина и для "Войти в аккаунт"
+    // Логотип (SVG)
+    public SelenideElement logo = $("a.AppHeader_header__link__3D_hX[href='/']");
+    // Ссылка "Конструктор" (главная)
+    public SelenideElement constructorLink = $("a.AppHeader_header__link__3D_hX[href='/']");
 }
-
