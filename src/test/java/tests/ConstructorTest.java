@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.junit.Test;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
-
 
 @Epic("Stellar Burgers UI")
 @Feature("Constructor Tabs")
@@ -21,6 +21,11 @@ public class ConstructorTest {
         $("[name='name']").setValue("screwy4@yandex.ru");
         $("[type='password']").setValue("12345678");
         $("button.button_button_type_primary__1O7Bx").click();
+
+        // Ждем появления главной страницы, чтобы лоадеры и overlay ушли
+        $("main").shouldBe(visible);
+        // Если на сайте бывает overlay — добавить ожидание его исчезновения:
+        // $$(".overlay, .modal, .cookie-banner").forEach(e -> e.shouldBe(hidden));
     }
 
     @Test
@@ -29,11 +34,20 @@ public class ConstructorTest {
     @Severity(SeverityLevel.CRITICAL)
     @Description("Клик по табу 'Булки' и проверка, что таб активен")
     public void goToBunsTabTest() {
-        step("Клик по табу 'Булки'", () -> {
-            $x("//span[text()='Булки']/ancestor::div[contains(@class,'tab_tab__1SPyG')]").click();
+        step("Переходим на главную, убеждаемся что страница прогружена", () -> {
+            $("main").shouldBe(visible);
         });
-        step("Проверка, что таб 'Булки' активен", () -> {
-            $x("//span[text()='Булки']/ancestor::div[contains(@class,'tab_tab_type_current__2BEPc')]").shouldBe(visible);
+
+        SelenideElement bunsTab = $x("//span[text()='Булки']/ancestor::div[contains(@class,'tab_tab__1SPyG')]");
+
+        step("Если таб уже активен, пропускаем клик", () -> {
+            if (!bunsTab.has(cssClass("tab_tab_type_current__2BEPc"))) {
+                bunsTab.shouldBe(visible).click();
+            }
+        });
+
+        step("Проверяем, что таб 'Булки' активен", () -> {
+            bunsTab.shouldHave(cssClass("tab_tab_type_current__2BEPc"));
         });
     }
 }
