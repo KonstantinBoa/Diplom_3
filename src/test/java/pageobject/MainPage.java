@@ -4,14 +4,17 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.*;
 
 public class MainPage {
-    // Кнопка "Лента заказов" (feed)
-    public SelenideElement feedButton = $("a.AppHeader_header__link__3D_hX[href='/feed']");
+    // Кнопка "Войти в аккаунт" на главной (если не авторизован)
+    public SelenideElement loginButton = $x("//button[contains(text(), 'Войти в аккаунт')]");
     // Кнопка "Личный кабинет"
-    public SelenideElement personalCabinet = $("a.AppHeader_header__link__3D_hX[href='/account']");
-    // Кнопка "Войти в аккаунт" (на главной, если не авторизован)
-    public SelenideElement loginButton = $("button.button_button_type_primary__1O7Bx"); // работает и для формы логина и для "Войти в аккаунт"
-    // Логотип (SVG)
-    public SelenideElement logo = $("a.AppHeader_header__link__3D_hX[href='/']");
-    // Ссылка "Конструктор" (главная)
-    public SelenideElement constructorLink = $("a.AppHeader_header__link__3D_hX[href='/']");
+    public SelenideElement personalCabinetButton = $x("//a[@href='/account']");
+    // Кнопка "Лента заказов"
+    public SelenideElement feedButton = $x("//a[@href='/feed']");
+
+    // Клик по кнопке "Войти в аккаунт" на главной
+    public void clickLoginButton() { loginButton.click(); }
+    // Клик по кнопке "Личный кабинет"
+    public void clickPersonalCabinet() { personalCabinetButton.click(); }
+    // Клик по кнопке "Лента заказов"
+    public void clickFeed() { feedButton.click(); }
 }
